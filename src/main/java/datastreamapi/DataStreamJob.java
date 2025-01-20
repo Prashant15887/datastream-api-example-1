@@ -16,11 +16,14 @@
  * limitations under the License.
  */
 
-package datastream-api;
+package datastreamapi;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.api.common.functions.FilterFunction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Skeleton for a Flink DataStream Job.
@@ -40,10 +43,20 @@ public class DataStreamJob {
 		final StreamExecutionEnvironment env =
 				StreamExecutionEnvironment.getExecutionEnvironment();
 
+		List<Person> people = new ArrayList<Person>();
+
+		people.add(new Person("Fred", 35));
+		people.add(new Person("Wilma", 35));
+		people.add(new Person("Pebbles", 2));
+
+		DataStream<Person> flintstones = env.fromCollection(people);
+
+		/*
 		DataStream<Person> flintstones = env.fromElements(
 				new Person("Fred", 35),
 				new Person("Wilma", 35),
 				new Person("Pebbles", 2));
+		*/
 
 		DataStream<Person> adults = flintstones.filter(new FilterFunction<Person>() {
 			@Override
